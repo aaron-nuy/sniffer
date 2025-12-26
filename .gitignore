@@ -1,1 +1,6 @@
 bin/
+vm/debs/
+vm/kdev/
+vm/kernel
+vm/headers
+vm/vmlinuz
