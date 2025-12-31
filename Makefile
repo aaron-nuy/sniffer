@@ -1,4 +1,4 @@
-all: bin/sniffer-ebpf bin/sniffer-ebpf.bpf.o
+all: bin/sniffer-kernel.ko bin/sniffer-kernel bin/sniffer-ebpf bin/sniffer-ebpf.bpf.o
 
 bin/sniffer-ebpf.bpf.o: ebpf/sniffer-ebpf.bpf.c ebpf/sniffer-ebpf.h
 	mkdir -p bin
@@ -7,6 +7,15 @@ bin/sniffer-ebpf.bpf.o: ebpf/sniffer-ebpf.bpf.c ebpf/sniffer-ebpf.h
 bin/sniffer-ebpf: ebpf/sniffer-ebpf.cpp ebpf/sniffer-ebpf.h
 	mkdir -p bin
 	g++ -O2 -o $@ $< -lbpf
+
+bin/sniffer-kernel.ko: module/sniffer-kernel.c module/Makefile ebpf/sniffer-ebpf.h vm/kernel
+	$(MAKE) -C vm/headers M=$(CURDIR)/module modules CC=gcc CROSS_COMPILE=
+	mkdir -p bin
+	cp module/sniffer-kernel.ko bin/
+
+bin/sniffer-kernel: module/tool.c ebpf/sniffer-ebpf.h
+	mkdir -p bin
+	gcc -O2 -static -o $@ $<
 
 vm/kernel:
 	mkdir -p vm/debs vm/kdev

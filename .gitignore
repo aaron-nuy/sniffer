@@ -4,3 +4,10 @@ vm/kdev/
 vm/kernel
 vm/headers
 vm/vmlinuz
+module/*.o
+module/*.cmd
+module/*.ko
+module/*.mod
+module/*.mod.c
+module/Module.symvers
+module/modules.order
