@@ -32,7 +32,23 @@ vm/kernel:
 
 vm/headers vm/vmlinuz: vm/kernel
 
+vm/busybox:
+	wget -O - https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/busybox-static-1.37.0-r31.apk | tar -xzO bin/busybox.static > vm/busybox
+	chmod 755 vm/busybox
+
+bin/initramfs.cpio.gz: vm/init vm/busybox bin/sniffer-kernel.ko bin/sniffer-kernel
+	rm -rf vm/ramfs
+	mkdir -p vm/ramfs/bin vm/ramfs/proc vm/ramfs/sys vm/ramfs/tmp
+	cp vm/busybox vm/ramfs/bin/busybox
+	ln -s busybox vm/ramfs/bin/sh
+	cp vm/init bin/sniffer-kernel.ko bin/sniffer-kernel vm/ramfs/
+	cd vm/ramfs && find . | cpio -o -H newc | gzip -9 > ../../bin/initramfs.cpio.gz
+
+run: bin/initramfs.cpio.gz vm/vmlinuz
+	qemu-system-x86_64 -enable-kvm -m 512 -nographic -no-reboot -kernel vm/vmlinuz -initrd bin/initramfs.cpio.gz -append "console=ttyS0"
+
 clean:
 	rm -rf bin
+	if [ -d vm/headers ]; then $(MAKE) -C vm/headers M=$(CURDIR)/module clean CC=gcc CROSS_COMPILE=; fi
 
-.PHONY: all clean
+.PHONY: all run clean
