@@ -75,6 +75,7 @@ static void print_event(const packet_event *event)
 		   event->process_id, process_name, direction_name, protocol_name,
 		   source_endpoint, destination_endpoint, event->packet_length);
 	print_payload(event);
+	fflush(stdout);
 }
 
 int main(int argument_count, char **arguments)
