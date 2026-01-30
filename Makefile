@@ -51,4 +51,7 @@ clean:
 	rm -rf bin
 	if [ -d vm/headers ]; then $(MAKE) -C vm/headers M=$(CURDIR)/module clean CC=gcc CROSS_COMPILE=; fi
 
-.PHONY: all run clean
+distclean: clean
+	rm -rf vm/kdev vm/debs vm/headers vm/vmlinuz vm/kernel vm/busybox vm/ramfs
+
+.PHONY: all run clean distclean
