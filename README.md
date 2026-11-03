@@ -33,9 +33,9 @@ capturing pids: 193715, payload limit 256 bytes, ctrl-c to stop
 
 `module/sniffer-kernel.c` hooks TCP and UDP send and receive, queues the packets of the watched PID, and exposes them on `/dev/sniffer`.
 
-One reader can hold the device open at a time and tells the module which PID to watch.
+Only one reader can hold the device open at a time and tells the module which PID to watch.
 
-`bin/sniffer-kernel` is the reader; give it a PID:
+`bin/sniffer-kernel` is the reader, give it a PID:
 
 ```bash
 ./bin/sniffer-kernel 1234
