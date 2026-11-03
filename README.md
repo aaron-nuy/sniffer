@@ -31,9 +31,9 @@ capturing pids: 193715, payload limit 256 bytes, ctrl-c to stop
 
 ## Kernel Module
 
-`module/sniffer-kernel.c` hooks TCP and UDP send and receive, queues the packets of the watched PID, and exposes them on `/dev/sniffer`.
+`module/sniffer-kernel.c` hooks TCP and UDP send and receive, queues the packets of the watched PID, and exposes them on `/dev/sniffer`
 
-Only one reader can hold the device open at a time and tells the module which PID to watch.
+Only one reader can hold the device open at a time and tells the module which PID to watch
 
 `bin/sniffer-kernel` is the reader, give it a PID:
 
@@ -41,7 +41,7 @@ Only one reader can hold the device open at a time and tells the module which PI
 ./bin/sniffer-kernel 1234
 ```
 
-`make run` boots the Debian kernel with the module already loaded in a QEMU VM so none of this has to touch the host.
+`make run` boots the Debian kernel with the module already loaded in a QEMU VM
 
 ### Example Output
 
