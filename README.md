@@ -31,6 +31,8 @@ capturing pids: 193715, payload limit 256 bytes, ctrl-c to stop
 
 ## Kernel Module
 
+**This was written for kernel 6.12**
+
 `module/sniffer-kernel.c` hooks TCP and UDP send and receive, queues the packets of the watched PID, and exposes them on `/dev/sniffer`
 
 Only one reader can hold the device open at a time and tells the module which PID to watch
